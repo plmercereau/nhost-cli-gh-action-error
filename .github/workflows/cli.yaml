@@ -1,0 +1,16 @@
+name: Run CLI
+
+on:
+  push:
+    branches: [main]
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # * Install Nhost CLI if a `nhost/config.yaml` file is found
+      - name: Install Nhost CLI
+        run: curl -L https://raw.githubusercontent.com/nhost/cli/main/get.sh | bash
+      # * Run the `ci` script of the current package of the matrix. Dependencies build is cached by Turborepo
+      - name: Run Nhost CLI
+        run: nhost dev --no-browser
